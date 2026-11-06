@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="theme-color" content="#2f5bea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Карточки: английский и словацкий</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#14213d;--mute:#5b6b85;--line:#d5dce8;--acc:#2f5bea;--acc-ink:#fff;--en:#2f5bea;--sk:#c8372d;--ok:#1f8a5b;--warn:#a86a00;--bad:#c8372d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1626;--card:#18223a;--ink:#e8edf7;--mute:#97a6c2;--line:#2b3957;--acc:#6f93ff;--acc-ink:#0f1626;--en:#6f93ff;--sk:#ff7b70;--ok:#4cc38a;--warn:#f0b254;--bad:#ff7b70}}
+:root[data-theme="dark"]{--bg:#0f1626;--card:#18223a;--ink:#e8edf7;--mute:#97a6c2;--line:#2b3957;--acc:#6f93ff;--acc-ink:#0f1626;--en:#6f93ff;--sk:#ff7b70;--ok:#4cc38a;--warn:#f0b254;--bad:#ff7b70}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Onest,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:480px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}
+h2{font-size:17px;margin:24px 0 4px}
+header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.due{color:var(--mute);font-size:14px}
+nav,.chips{display:flex;gap:6px;margin-bottom:10px}
+nav button,.chips button{flex:1;padding:10px 4px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;font:inherit;font-size:14px;cursor:pointer}
+nav button.on,.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,textarea:focus-visible,select:focus-visible,.in:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 20px;text-align:center}
+.tag{font-size:13px;font-weight:700}
+.tag.en{color:var(--en)}.tag.sk{color:var(--sk)}
+.front{font-size:32px;font-weight:700;margin:18px 0 8px;overflow-wrap:anywhere}
+.back{font-size:26px;font-weight:700;margin:14px 0 6px;padding-top:16px;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.emo{font-size:64px;line-height:1.2;margin:8px 0}
+img.pic{display:block;margin:8px auto;max-width:100%;max-height:200px;border-radius:12px}
+.nt{white-space:pre-line;text-align:left;background:var(--bg);border-radius:10px;padding:10px 12px;font-size:15px;color:var(--mute);margin-top:10px}
+.res{font-weight:700;margin-top:14px}
+.res.ok{color:var(--ok)}.res.near{color:var(--warn)}.res.bad{color:var(--bad)}
+.btn{display:block;width:100%;padding:14px;border:0;border-radius:12px;background:var(--acc);color:var(--acc-ink);font:inherit;font-weight:700;cursor:pointer;margin-top:12px}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.grades button{padding:10px 2px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.grades button.sug{border:2px solid var(--acc)}
+.grades small{display:block;color:var(--mute);font-size:12px}
+.say{border:0;background:none;color:var(--mute);font:inherit;font-size:14px;cursor:pointer;text-decoration:underline}
+textarea,select,.in{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;margin-top:12px}
+.lbl+.in,.lbl+select,.lbl+textarea{margin-top:4px}
+textarea{min-height:90px}
+.lbl{display:block;font-size:14px;color:var(--mute);margin-top:12px}
+details{margin-top:20px}summary{cursor:pointer;color:var(--mute);font-size:14px}
+.row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row .m{flex:1;min-width:0;overflow-wrap:anywhere}
+.row small{color:var(--mute);display:block}
+.row button{border:0;background:none;color:var(--mute);font-size:20px;cursor:pointer;padding:4px 8px}
+.th{width:40px;height:40px;border-radius:8px;object-fit:cover;font-size:28px;text-align:center;line-height:40px;flex:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;text-align:center}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:22px;font-weight:700}
+.stats small{display:block;font-size:12px;font-weight:400;color:var(--mute)}
+.note{color:var(--mute);font-size:14px;margin:8px 0}
+.empty{padding:36px 8px}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pg>div,.opts{display:grid;gap:8px;align-content:start}.opts{margin:12px 0}
+.opt{padding:12px 8px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer;overflow-wrap:anywhere}
+.opt.sel{border:2px solid var(--acc)}.opt.good{border:2px solid var(--ok)}.opt.bad{border:2px solid var(--bad)}
+.lts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}.lt{min-width:44px;height:48px;font-size:20px;padding:0 10px}
+.slots{font-size:28px;font-weight:700;margin:12px 0;min-height:40px}
+</style>
+</head>
+<body>
+<main>
+<header><h1>Карточки</h1><span class="due" id="due"></span></header>
+<nav id="nav"></nav>
+<div id="view"></div>
+</main>
+<script>
+var KEY='lc_v1',S,tab='study',lang='all',cur=null,res=null,ed=null,pimg='',foc=false,LN={en:'English',sk:'Slovenčina'};
+var SEED=[
+['en','although','хотя','Although it was late, we kept talking. После although идёт целое предложение, «but» не нужен.','🌦️'],
+['en','however','однако','I like it. However, it’s too expensive. Обычно в начале предложения, после него запятая.','🔀'],
+['en','to improve','улучшать','improve your English; room for improvement — есть куда расти.','📈'],
+['en','enough','достаточно','good enough — достаточно хорошо; enough is enough — хватит. Ставится после прилагательного: big enough.','✅'],
+['en','to borrow','брать взаймы','Can I borrow your pen? Borrow — взять, lend — дать.','🤲'],
+['en','reliable','надёжный','a reliable friend; a reliable source.','🛡️'],
+['en','to achieve','достигать','achieve a goal; achieve success.','🏆'],
+['en','neighbour','сосед','next-door neighbour — сосед по дому.','🏘️'],
+['en','schedule','расписание','on schedule — по графику; behind schedule — с опозданием.','📅'],
+['en','to suggest','предлагать','I suggest going / I suggest that we go. После suggest не используют to + инфинитив.','💡'],
+['sk','ahoj','привет','Ahoj! — и «привет», и «пока» между знакомыми.','👋'],
+['sk','ďakujem','спасибо','Ďakujem pekne — большое спасибо. Nie je za čo — не за что.','🙏'],
+['sk','prosím','пожалуйста','Универсальное слово: «пожалуйста», «прошу» и «что, простите?» при переспросе.','🙂'],
+['sk','dobrý deň','добрый день','Вежливое приветствие. Dobré ráno — доброе утро, dobrý večer — добрый вечер.','☀️'],
+['sk','voda','вода','Dám si vodu. — Мне воду. Perlivá / neperlivá — с газом / без газа.','💧'],
+['sk','chlieb','хлеб','Kúpim chlieb — куплю хлеб. Chlieb s maslom — хлеб с маслом.','🍞'],
+['sk','Ako sa máš?','как дела?','Ответ: Mám sa dobre — у меня всё хорошо. Вежливо: Ako sa máte?','💬'],
+['sk','rozumiem','я понимаю','Rozumiem vám — я вас понимаю.','🧠'],
+['sk','nerozumiem','я не понимаю','Nerozumiem po slovensky — я не понимаю по-словацки.','🤷'],
+['sk','Koľko to stojí?','сколько это стоит?','Platím kartou — плачу картой. Chcem zaplatiť — хочу заплатить.','🏷️'],
+['sk','zajtra','завтра','Vidíme sa zajtra — увидимся завтра. Dnes — сегодня, včera — вчера.','📆']];
+function mk(l,f,b,n,e,img){return{id:Date.now().toString(36)+(IDN++).toString(36)+Math.random().toString(36).slice(2,5),l:l,f:f,b:b,n:n||'',e:e||'',img:img||'',ef:2.5,reps:0,int:0,due:0}}
+function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+ if(!S||!S.cards){S={cards:[],log:{}};SEED.forEach(function(p){S.cards.push(mk.apply(null,p))})}
+ S.dir=S.dir||'fr';S.nw=S.nw||{};S.lim=S.lim||20;
+ S.cards.forEach(function(c){if(c.n===undefined){var p=SEED.filter(function(x){return x[1]==c.f})[0];c.n=p?p[3]:'';c.e=p?p[4]:'';c.img=''}});save()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Не хватило места в памяти браузера. Убери часть фото.')}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(i){return document.getElementById(i)}
+function day0(){var d=new Date();d.setHours(0,0,0,0);return d.getTime()}
+function today(){return new Date().toISOString().slice(0,10)}
+function inLang(c){return lang=='all'||c.l==lang}
+function dueList(){var n=Date.now(),left=Math.max(0,(S.lim||20)-(S.nw[today()]||0));
+ return S.cards.filter(function(c){return c.due>0&&c.due<=n&&inLang(c)}).sort(function(a,b){return a.due-b.due}).concat(S.cards.filter(function(c){return c.due===0&&inLang(c)}).slice(0,left))}
+function nxt(c,g){
+ var st=c.st||0,e0=c.ef;
+ if(c.reps==0){
+  if(g==0)return{ef:e0,reps:0,int:0,st:0,due:Date.now()+6e4};
+  if(g==1)return{ef:e0,reps:0,int:0,st:st,due:Date.now()+(st?10:6)*6e4};
+  if(g==2&&!st)return{ef:e0,reps:0,int:0,st:1,due:Date.now()+6e5};
+  var j=g==3?3:1;return{ef:e0,reps:1,int:j,st:0,due:day0()+j*864e5}}
+ if(g==0)return{ef:Math.max(1.3,e0-.2),reps:0,int:0,st:1,due:Date.now()+6e5};
+ var q=g+2,ef=Math.max(1.3,c.ef+.1-(5-q)*(.08+(5-q)*.02)),reps=c.reps+1,i=reps==1?1:reps==2?6:Math.round(c.int*ef);
+ if(g==3&&reps>1)i=Math.round(i*1.3);
+ return{ef:ef,reps:reps,int:i,st:0,due:day0()+i*864e5}}
+function fmt(c,g){var n=nxt(c,g);if(!n.reps)return'<'+Math.max(1,Math.round((n.due-Date.now())/6e4))+' мин.';return n.int<30?n.int+' дн.':Math.round(n.int/30)+' мес.'}
+function nz(s){return s.toLowerCase().replace(/ё/g,'е').replace(/[.,!?¿;:"«»]/g,'').replace(/\s+/g,' ').trim()}
+function ds(s){return nz(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+function lev(a,b){var p=[],i,j,pr,t;for(j=0;j<=b.length;j++)p[j]=j;for(i=1;i<=a.length;i++){pr=p[0];p[0]=i;for(j=1;j<=b.length;j++){t=p[j];p[j]=Math.min(p[j]+1,p[j-1]+1,pr+(a[i-1]==b[j-1]?0:1));pr=t}}return p[b.length]}
+function check(inp){
+ var fr=S.dir=='fr',ex=fr?cur.b:cur.f,opts=[ex].concat(fr?ex.split(/[,;\/]/):[]),a=nz(inp);
+ if(!a)return 0;
+ if(opts.some(function(o){return nz(o)==a}))return 2;
+ if(opts.some(function(o){var x=ds(o),y=ds(a);return x==y||(x.length>4&&lev(x,y)<=1)}))return 1;
+ return 0}
+function ans(){res={v:check($('ai').value),a:$('ai').value.trim()};render()}
+function skip(){res={v:-1,a:''};render()}
+function grade(g){if(cur.due===0)S.nw[today()]=(S.nw[today()]||0)+1;Object.assign(cur,nxt(cur,g));var t=today();S.log[t]=(S.log[t]||0)+1;save();cur=null;res=null;foc=true;render()}
+function say(){var u=new SpeechSynthesisUtterance(cur.f);u.lang=cur.l=='en'?'en-GB':'sk-SK';u.rate=.9;try{speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function setTab(t){tab=t;cur=null;res=null;ed=null;pimg='';render()}
+function setLang(l){lang=l;cur=null;res=null;render()}
+function setLim(v){S.lim=+v;save();cur=null;res=null;render()}
+function setDir(d){S.dir=d;save();cur=null;res=null;render()}
+function edit(id){ed=id;pimg=S.cards.filter(function(c){return c.id==id})[0].img||'';tab='add';cur=null;res=null;render()}
+function pick(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,320/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);pimg=cv.toDataURL('image/jpeg',.7);prev()};im.src=r.result};r.readAsDataURL(f)}
+function prev(){$('pv').innerHTML=pimg?'<img class="pic" alt="" src="'+pimg+'"><button class="say" onclick="pimg=\'\';prev()">Убрать фото</button>':''}
+function saveCard(){var g=function(i){return $(i).value.trim()},f=g('af'),b=g('ab'),was=ed;
+ if(!f||!b){$('msg').textContent='Заполни слово и перевод';return}
+ if(ed){var c=S.cards.filter(function(x){return x.id==ed})[0];c.l=g('al');c.f=f;c.b=b;c.n=g('an');c.e=g('ae');c.img=pimg}
+ else S.cards.push(mk(g('al'),f,b,g('an'),g('ae'),pimg));
+ ed=null;pimg='';save();tab=was?'words':'add';render();if(!was)$('msg').textContent='Добавлено'}
+function parse(t){
+ t=t.replace(/([а-яёa-z\.\)])(?=[A-Z][A-Za-z’' ]{1,30}?\s*(?:\([^)]*\))?\s*[-–—]\s)/g,'$1\n').replace(/([а-яё\)])\s+(?=[A-Z][A-Za-z’' ]{0,30}?\s*(?:\([^)]*\))?\s+[-–—]\s)/g,'$1\n');
+ var out=[],bad=0;
+ t.split('\n').forEach(function(s){s=s.trim();if(!s)return;
+  var ex=s.split('|'),m=ex[0].match(/^(.+?)\s*[-–—]\s+(.+)$/);
+  if(!m){bad++;return}
+  var f=m[1].trim(),r=m[2].trim(),pr=[],nt=ex.slice(1).map(function(x){return x.trim()}).filter(Boolean);
+  f=f.replace(/\(([А-Яа-яЁё\s]+)\)/,function(_,p){pr.push(p.trim());return''}).trim();
+  r=r.replace(/\s*\(([А-Яа-яЁё\s]+)\)\s*$/,function(_,p){pr.push(p.trim());return''}).trim();
+  var k=r.match(/^(.*?[А-Яа-яЁё\)\.,!?])\s+([A-Za-z].*)$/);
+  if(k){r=k[1];nt.unshift(k[2].trim())}
+  if(pr.length)nt.unshift('Произношение: '+pr.join(', '));
+  if(f&&r)out.push([f,r,nt]);else bad++});
+ return{out:out,bad:bad}}
+function bulk(){var l=$('al').value,p=parse($('at').value),a=0,u=0;
+ p.out.forEach(function(x){var c=S.cards.filter(function(k){return k.l==l&&k.f.toLowerCase()==x[0].toLowerCase()})[0],ch=false;
+  if(!c){S.cards.push(mk(l,x[0],x[1],x[2].join('\n')));a++;return}
+  if(c.b.toLowerCase().indexOf(x[1].toLowerCase())<0){c.b+='; '+x[1];ch=true}
+  x[2].forEach(function(z){if(c.n.indexOf(z)<0){c.n+=(c.n?'\n':'')+z;ch=true}});
+  if(ch)u++});
+ save();render();$('msg').textContent='Добавлено: '+a+', обновлено: '+u+(p.bad?'. Пропущено строк без « - »: '+p.bad:'')}
+function del(id){S.cards=S.cards.filter(function(c){return c.id!=id});save();render()}
+function exp(){$('bk').value=JSON.stringify(S)}
+function imp(){try{var d=JSON.parse($('bk').value);if(d&&d.cards){S=d;S.nw=S.nw||{};S.dir=S.dir||'fr';S.lim=S.lim||20;save();render();alert('Готово')}}catch(e){alert('Не получилось прочитать данные')}}
+function notif(){if(!('Notification' in window)){alert('Этот браузер не поддерживает уведомления');return}Notification.requestPermission().then(render)}
+function ping(){var n=dueList().length;
+ document.title=(n?'('+n+') ':'')+'Карточки';
+ if(n&&'Notification' in window&&Notification.permission=='granted'){var last=0;try{last=+localStorage.getItem('lc_ping')||0}catch(e){}
+  if(Date.now()-last>3*36e5){try{localStorage.setItem('lc_ping',Date.now())}catch(e){}new Notification('Пора повторять',{body:'Карточек к повторению: '+n})}}}
+function chips(a,sel,fn){return'<div class="chips">'+a.map(function(p){return'<button class="'+(sel==p[0]?'on':'')+'" onclick="'+fn+'(\''+p[0]+'\')">'+p[1]+'</button>'}).join('')+'</div>'}
+function pic(c,cls){return c.img?'<img class="'+(cls||'pic')+'" alt="" src="'+c.img+'">':c.e?'<div class="'+(cls?cls:'emo')+'">'+c.e+'</div>':''}
+function render(){
+ var d=dueList(),v=$('view'),h='';
+ $('due').textContent='К повторению: '+d.length;
+ $('nav').innerHTML=[['study','Учить'],['games','Практика'],['add',ed?'Изменить':'Добавить'],['words','Слова']].map(function(p){return'<button class="'+(tab==p[0]?'on':'')+'" onclick="setTab(\''+p[0]+'\')">'+p[1]+'</button>'}).join('');
+ if(tab=='study'){
+  h=chips([['all','Все'],['en','English'],['sk','Slovenčina']],lang,'setLang')+chips([['fr','Вспомнить перевод'],['to','Написать слово']],S.dir=='fr'?'fr':'to','setDir');
+  if(!cur&&d.length)cur=d[0];
+  if(!cur){var nx=S.cards.filter(function(c){return inLang(c)&&c.due>0}).map(function(c){return c.due}).sort(function(a,b){return a-b})[0],NL=S.cards.filter(function(c){return inLang(c)&&c.due===0}).length;
+   h+='<div class="card empty"><div class="front">Всё повторено</div><div class="note">'+(NL?'Новые слова на сегодня закончились, в очереди ещё '+NL+'. Лимит можно поднять во вкладке «Слова».':nx?'Следующая карточка: '+new Date(nx).toLocaleString('ru',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}):'Добавь первые слова во вкладке «Добавить».')+'</div></div>'}
+  else{
+   var fr=S.dir=='fr',q=fr?cur.f:cur.b,ex=fr?cur.b:cur.f;
+   h+='<div class="card"><span class="tag '+cur.l+'">'+LN[cur.l]+'</span><div class="front">'+esc(q)+'</div>';
+   if(fr)h+='<button class="say" onclick="say()">Послушать</button>';
+   if(!res){
+    h+='</div><input id="ai" class="in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Ответ" placeholder="'+(fr?'Перевод на русский':'Слово на '+(cur.l=='en'?'английском':'словацком'))+'" onkeydown="if(event.key===\'Enter\')ans()"><button class="btn" onclick="ans()">Проверить</button><button class="btn alt" onclick="skip()">Не помню</button>'}
+   else{
+    if(res.v>=0){var m=res.v==2?['ok','Верно']:res.v==1?['near','Почти, проверь написание']:['bad','Неверно'];h+='<div class="res '+m[0]+'">'+m[1]+(res.v<2&&res.a?'. Ты написал: '+esc(res.a):'')+'</div>'}
+    h+='<div class="back">'+esc(ex)+'</div>'+(fr?'':'<button class="say" onclick="say()">Послушать</button>')+pic(cur)+(cur.n?'<div class="nt">'+esc(cur.n)+'</div>':'')+(hasEx(cur)?'':'<button class="say" onclick="oneEx()">Придумать примеры</button>')+'</div>';
+    var sug=res.v==2?2:res.v==1?1:0;
+    h+='<div class="grades">'+['Снова','Трудно','Хорошо','Легко'].map(function(t,i){return'<button class="'+(i==sug?'sug':'')+'" onclick="grade('+i+')">'+t+'<small>'+fmt(cur,i)+'</small></button>'}).join('')+'</div>'}}
+  var t=S.log[today()]||0,lr=S.cards.filter(function(c){return c.int>=21}).length;
+  h+='<div class="stats"><div>'+t+'<small>сегодня</small></div><div>'+S.cards.length+'<small>всего слов</small></div><div>'+lr+'<small>выучено</small></div></div>'}
+ else if(tab=='games'){gameView();return}
+ else if(tab=='add'){
+  var c=ed?S.cards.filter(function(x){return x.id==ed})[0]:{l:'en',f:'',b:'',n:'',e:''};
+  h='<label class="lbl" for="al" style="margin-top:0">Язык</label><select id="al"><option value="en"'+(c.l=='en'?' selected':'')+'>English</option><option value="sk"'+(c.l=='sk'?' selected':'')+'>Slovenčina</option></select>'+
+  '<label class="lbl" for="af">Слово или фраза</label><input id="af" class="in" type="text" value="'+esc(c.f)+'">'+
+  '<label class="lbl" for="ab">Перевод</label><input id="ab" class="in" type="text" value="'+esc(c.b)+'">'+
+  '<label class="lbl" for="an">Заметка: как используется, популярные выражения</label><textarea id="an">'+esc(c.n)+'</textarea>'+
+  '<label class="lbl" for="ae">Эмодзи по смыслу</label><input id="ae" class="in" type="text" maxlength="8" placeholder="🍞" value="'+esc(c.e)+'">'+
+  '<label class="lbl" for="ap">Или своё фото</label><input id="ap" class="in" type="file" accept="image/*" onchange="pick(this)"><div id="pv"></div>'+
+  '<button class="btn" onclick="saveCard()">'+(ed?'Сохранить':'Добавить')+'</button>'+(ed?'<button class="btn alt" onclick="setTab(\'words\')">Отмена</button>':'')+'<div class="note" id="msg"></div>'+
+  (ed?'':'<details open><summary>Импорт из заметок</summary><textarea id="at" placeholder="neighbour - сосед&#10;zajtra - завтра"></textarea><button class="btn alt" onclick="bulk()">Импортировать</button><div class="note">Вставь список целиком: слово (произношение) - перевод пример. Язык берётся из поля «Язык» выше, английский и словацкий вставляй по отдельности. Несколько примеров добавляются через « | »: слово - перевод | пример 1 | пример 2. Если слово уже есть, перевод и примеры дописываются к нему.</div></details>');
+  v.innerHTML=h;prev();return}
+ else{
+  h=chips([['all','Все'],['en','English'],['sk','Slovenčina']],lang,'setLang')+S.cards.filter(inLang).map(function(c){return'<div class="row">'+(pic(c,'th')||'<div class="th"></div>')+'<div class="m"><b>'+esc(c.f)+'</b> <span class="tag '+c.l+'">'+c.l.toUpperCase()+'</span><small>'+esc(c.b)+'</small></div><button aria-label="Изменить" onclick="edit(\''+c.id+'\')">✎</button><button aria-label="Удалить" onclick="del(\''+c.id+'\')">×</button></div>'}).join('');
+  var ok='Notification' in window&&Notification.permission=='granted';
+  h+='<h2>Новых слов в день</h2><select id="lim" aria-label="Новых слов в день" onchange="setLim(this.value)">'+[10,20,30,50,100,200,300,400].map(function(n){return'<option'+(S.lim==n?' selected':'')+'>'+n+'</option>'}).join('')+'</select><div class="note">Новых слов в очереди: '+newCount()+', это примерно '+Math.ceil(newCount()/S.lim)+' дн. при таком лимите. Повторения старых слов не ограничены.</div><h2>Примеры от Claude</h2><div class="note">Claude допишет к словам, у которых меньше 3 примеров, по 3 фразы с переводом. Делается порциями по 15 слов, держи страницу открытой. Язык берётся из фильтра выше.</div>'+(EX.run?'<div class="note">Готово: '+EX.done+' из '+EX.tot+'</div><button class="btn alt" onclick="exStop()">Остановить</button>':'<button class="btn alt" onclick="exAll()">Дописать примеры ко всем словам</button>')+(EX.err?'<div class="res bad">'+esc(EX.err)+'</div>':'')+'<h2>Уведомления</h2><div class="note">Напоминание приходит, пока страница открыта в браузере, даже в фоновой вкладке. Когда она закрыта, уведомлений не будет.</div><button class="btn alt" onclick="notif()">'+(ok?'Уведомления включены':'Включить уведомления')+'</button>'+
+  '<h2>Резервная копия</h2><div class="note">Данные хранятся только в этом браузере. Скопируй текст и сохрани в заметках.</div><textarea id="bk" aria-label="Резервная копия"></textarea><div style="display:flex;gap:8px"><button class="btn alt" onclick="exp()">Показать данные</button><button class="btn alt" onclick="imp()">Восстановить</button></div>'}
+ v.innerHTML=h;
+ if(foc){var i=$('ai');if(i)i.focus();foc=false}
+}
+var IDN=0,PACKS=[['sk1','sk',`Alebo - или
+Hore - наверху
+Lietadlo - самолёт
+Kolobežka - самокат
+Šikovný - умный
+Zošit - рабочая тетрадь
+Dlhé - длинный
+Tučné - жирный
+Chudá - худая
+Námestie - площадь
+Dcéra - дочь
+Hnedý - коричневый
+Priestranné - просторный
+Prázdne - пустой
+Sympatický - симпатичный
+Rok - год
+Mať - иметь
+Mať sa - поживать
+Ísť - идти
+Ísť - добраться
+Čau - привет, пока
+Tiež - также
+Aj - тоже
+Odkiaľ - откуда
+Bývaš - живёшь
+Teraz - сейчас
+Zo - из, со
+Trochu - немного
+Ostatní - остальные
+Zbohom - пока
+Pán - господин
+Asi - наверное
+Zať - зять
+Švagor - шурин, свояк
+Bratranec - двоюродный брат
+Spomienka - воспоминание
+Dávne časy - давние времена
+Obrázok - картинка
+Vedľa - возле
+Vpredu - впереди
+Celkom - совсем
+Pozerať sa - смотреть
+Myslím - думаю
+Teším sa na - я жду с нетерпением
+Stretnutie - встреча
+Určite - точно, наверняка
+Víkend - выходной
+Bylinkový čaj - травяной чай
+Zákusok - пирожное
+Jablkový koláč - яблочный пирог
+Káva - кофе
+Mám ťa rád - я тебя люблю
+Obľúbený - любимый
+Stačí - достаточно
+Nech sa páči - пожалуйста, при подаче
+Daj si pozor - будь осторожен
+Citrón - лимон
+Ťa - тебя
+Že - что
+Poď - подойди
+Sadnúť si - присесть
+Spolu - вместе
+Ďalšie - дальнейшие
+Ovocie - фрукты
+Byť - быть
+Vysvetľovať - объяснять
+Škaredý - уродливый
+Divadlo - театр
+Juh - юг
+Loď - корабль
+Novinový stánok - газетный киоск
+Stanica - вокзал
+Týždeň - неделя
+Zmenáreň - обменный пункт
+Žiak - ученик
+Jednosmerný - в одну сторону
+Spiatočný (спяточный) - обратный
+Minulý - минувший
+Cestovať - путешествовать
+Musieť - должен
+Priať - желать
+Rozumieť - понимать
+Stáť - стоить
+Kam - куда
+Nikdy - никогда
+Žiadny - никакой
+Najskôr - сначала
+Pešo - пешком
+Späť - обратно
+Do - к
+Len - только
+Prosím - пожалуйста
+Samozrejme - конечно, разумеется
+Rozumiete po slovensky? - понимаете по-словацки?
+Cestovný lístok (цестовный) - проездной билет
+Niečo - кое-что
+Vlak - поезд
+Obyčajný - обычный
+Na preukaz - по удостоверению
+Viac - больше
+Používať - пользоваться
+Kedy - когда
+Dopredu - вперёд
+Doprava - направо
+Dozadu - назад
+Doľava - налево
+Veža - башня
+Lavica - скамейка
+Socha - статуя
+Budova - здание
+Zabočiť - поверни
+Ako vyzerá? - как выглядит (ако вызера)
+Iným - иным
+Nabudúce - в следующий раз
+Ponáhľaj sa - поторапливайся (понагляйся)
+Čože - что-то
+Čakať - ждать
+Povedať - сказать
+Vrtuľník - вертолёт
+Strýko - дядя
+Práca - работа
+Zastaviť - остановить
+Pokračovať - продолжать
+Stratil - потерянный
+Vedie - ведёт
+Hodina - час
+Prednáška - лекция
+Prestávka - перемена
+Spolužiak - одноклассник
+Strom - дерево
+Výlet - экскурсия
+Fajčiť - курить
+Ísť von - выходить
+Môcť - мочь
+Nakupovať - покупать
+Nastupovať - садиться
+Obliecť sa - одеваться
+Raňajkovať - завтракать
+Vedieť - знать
+Zabávať sa - веселиться
+Dlho - долго
+Voľno - свободное время, досуг
+Po - после
+Počas - во время`],
+['en1','en',`Fair - светлый, справедливый
+Miserable - убогий, печальный
+Own (оун) - иметь в собственности
+State verbs - глаголы состояния (не могут иметь ing окончание)
+Temporary - временный
+Cheerful - жизнерадостная
+For instance - к слову, к примеру
+Confident - уверенный
+Encourage (Анкоридж) - поощрять
+Competition - соревнование
+Impossible - невозможный
+I’m into - мне нравится
+Various (вэрайс) - разнообразие
+Opposite - напротив
+I don’t mind - я не возражаю
+Similar (симила) - похожее
+Below - снизу
+Gaps - пробел
+Independent - независимый
+Involved - привлечённый
+Sphere (сфиа) - сфера
+Equal (иквел) - равный, одинаковый
+Related - относящийся
+Looking forward to - жду с нетерпением
+Relative - родственник
+Term - четверть
+Insects (инсекцс) - насекомые
+Explore - изучать
+Useless - бесполезно
+Due to the fact that - из-за, благодаря
+Almost - почти
+Adjectives - прилагательное
+Invisible - невидимый
+Unknown - неизвестный
+Impatient (инпэйшон) - нетерпеливый
+Inner circle - ближайшее окружение
+All in all - в целом
+Act - действовать
+Fears - опасения
+Controversial (контровершал) - спорный
+Issue - вопрос, проблема
+Depend on - зависеть от
+A little - немного
+Rarely (рэли) - редко
+Fairly - довольно, достаточно
+Adverbs - наречия
+Weaker (викэ) - слабее
+Empathetic - сочувствующий
+Beige - бежевая
+Loose - свободный
+Appearance - появление, внешность
+To get along with - ладить
+Behind - за чем-то
+Printed materials - полиграфия
+Towards (товардс) - к (чему-то)
+Arrival - появление, прибытие
+Around - вокруг
+Straight away - сразу
+Loose-fitting - свободный крой
+Alike - одинаково
+Match - соответствовали
+Tear (tore) - рвали (теа)
+Messy - беспорядочный
+Decade - десятилетие
+Internationally - на международном уровне
+Tunes - мелодии
+Bestselling - пользующийся спросом
+Dozens - десятки
+Here today and gone tomorrow - приходит и уходит
+Mention - упоминание
+In order - в порядке
+In general - в общем
+Also - к тому же
+Rebellious - бунтующий
+While - в то время как
+Prefer - предпочитать
+Whereas - в то время как
+Since - ввиду
+Win over - завоевать
+Admiration - восхищение
+Express - выражать
+Affirmative (Афимейтив) - утвердительный
+Irregular - неправильный
+Conversation - диалог
+Neither (найвер) - ничего никому
+Chauffeur - шофер (шоуфер)
+Face problem - столкнуться с проблемой
+Convenient - удобный
+Valuable - ценный
+Compare - сравнить
+Beneficial (бЕнефикал) - полезный
+One of the greatest innovations - одно из величайших нововведений
+Modern - современный
+Purchase - покупка (пЁрчс)
+Include - включает
+Better deal - выгодное предложение
+Advantageous (эдвентижос) - преимущественный
+Overall - в целом
+Meaningful (мининфул) - значимый
+Rely (on) - полагаться, доверять
+Pair of shoes - пара обуви
+Pick out (clothing) - выбирать`],
+['en2','en',`Typical - типичный
+Every now and then - время от времени | синоним: sometimes
+Suppose - предполагать
+Wardrobe - гардероб (вордров)
+Those - те (тхоуз)
+Occasions - случаи, мероприятия (окешанс)
+Fork - вилка
+Folk - народ
+Northern - северный (нердерн)
+Customs - обычаи (кастомс)
+Customers - клиенты
+Item - элемент
+Tartan - клетчатая ткань
+Fabric - ткань
+Carry - нести
+Shawl - шаль (шал)
+Unusual - необычный
+Old-fashioned - старомодный
+Breeches - бриджи
+Waistcoat - жилет (вейсткост)
+Ribbons - ленты (рибонс)
+Quite - весьма
+Spectacular - впечатляющий (спектакьюла)
+Kick up - закинуть
+Tights - колготки (тайдс)
+Especially - особенно
+Shirt - рубашка
+Audience - аудитория, публика (одиенс)
+Guards - стража (гардс)
+As well as - также как
+Established - установленный (эстеблиш)
+Collar - воротник (кола)
+Stockings - чулки (стокингс)
+Bonnet - шляпа, капот
+Require - требовать
+Confirm - подтвердить
+Degree - степень
+Retire - выйти на пенсию, уйти
+Vote - голос, голосовать
+Possible - возможный
+Allow - позволять (элай)
+Allowed - разрешенный (элауд)
+Average - средний (Авердж)
+Common - общий
+Majority - большинство (мажорити)
+Obligatory - обязательный (облИгатору)
+Cannot - не могу
+Elections - выборы (элекшен)
+Insurance - страховка (иншЮранс)
+Trustful - доверительные
+Make sure - убедиться
+Prepare (for) - подготовиться
+Socialized - социализированный (сошиалайз)
+Acquire - приобретать (эквАер)
+Onwards - далее (анвродс)
+Inwards - внутрь
+Develop - развивать
+Opportunity - возможность
+Gain - получить
+Essential - необходимый
+Entertainment - развлечения
+Weekdays - будни
+Trumpet - труба (трампет)
+Exhausted - измученный
+Be able to - смогу
+Unbelievable - невероятно
+Nowadays - в настоящее время
+Available - доступен
+Store - магазин, хранить
+Superlative - превосходная степень (супёрлвтив)
+Further - дальше (фёртер)
+The furthest - самый дальний (фёртест)
+Generally - обычно
+Instead - вместо (инстед)
+Trainers - кроссовки
+Tight - плотный, узкий (тайдт)
+Accurate - точный (акьюрЕйт)
+Urgent - срочный (орчжент)
+Look for - искать
+Look after - присматривать
+Could - мог
+Decide - решать
+Occasionally - периодически
+All the craze - в моде
+Reckon - считать
+Amongst - среди (эмАнгс)
+Whom - которого (хум)
+Amuse - развлечься (инмьюзт)
+Consent - согласиться (консент)
+Attend - присутствовать
+Appoint - назначать
+Impress - впечатлить
+Outward - внешний
+Influence - влияние
+Extent - степень (экстент)
+Introduce - представлять
+Assemble - собрать (эсембл)
+Adepts - знатоки
+Former - прошлый (форма)
+Glide - скользить
+Motionless - неподвижно
+Upon - на
+Ridiculous - нелепый
+Silence - тишина
+Dim - тусклый
+Fragile - хрупкий (фрАдже)
+Droop - опустить (дроуп)
+Trill - трепетать
+Curious - странный, любопытный
+Incline - наклоняться
+Receive - получать
+Load - загружать
+Mate - товарищ
+Spelling - написание
+Ceiling - потолок
+Jogging - бегать (джогинг)
+Halves - половина (хафс)
+Racing - гоночный
+Apparently - вероятно
+Obviously - очевидно (обвиосли)
+Instantly - немедленно (инстантли)
+Track - трасса
+Gear - механизм (геар)
+Stunts - трюки (станс)
+Both - оба (боуф)
+Fall off - падать
+Knee - колено (кни)
+Thought - мысль (фот)
+Elbow - локоть (элбоу)
+Through - через (фру)
+Race - гонка
+Either - любой, тоже (ивёр)
+Last - длиться
+Inspire - вдохновить
+Separate - разделять
+Particular - конкретный (партикюлар)
+Court - суд, двор (корт)
+Midnight - полночь
+Point to - указывать
+Afford - позволить
+Beat - бить, побеждать (бит)
+During - в течение
+Got injured - получил травму (инджюр)
+In addition - помимо того
+Flexibility - гибкость
+Properly - должным образом
+Lift - поднимать
+Prevent - предотвращать
+Stamina - выносливость (стАмина)
+Stretch - растянуть
+Martial arts - боевые искусства (мАршал)
+In contrast - в отличие от
+Stairs - лестница
+Currently - в настоящий момент (кюрентли)
+Rude - грубый
+Consider - рассматривать
+Compete - конкурировать
+Narrow - узкий (нерроу)`],
+['en3','en',`Burglary - кража со взломом (бюлгари)
+Hacking - взлом
+Pickpocketing - карманная кража
+Shoplifting - магазинная кража
+Theft - кража (фефт)
+Definition - определение
+Thieves - воры (фифтс)
+Steal - красть
+Rob - грабить
+Immediately - мгновенно (имедетли)
+Chew - жевать (чю)
+Gum - жвачка
+Few - немного
+Come across - столкнуться
+Find out - узнать
+I was away - меня не было
+Suggest - предлагать
+Directly - прямо
+Get out - выйти, достать
+Anyway - в любом случае
+Illegal - незаконный
+Pedestrian - пешеходный
+Fine - штраф
+Unfair - несправедливо
+Suddenly - внезапно
+Shout - кричать (шаут)
+Look up - поиск
+Compulsory - обязательно
+Seem - казаться
+Provide - обеспечить
+Appear - появляться
+Serve - подавать
+Expect - ожидать
+Remain - оставаться
+Lead - вести
+May - может быть
+Hang - висеть
+Argue - спорить (аргью)
+Greet - приветствовать (грит)
+Goods - изделия
+Purse - кошелёк (пёрс)
+Curtains - шторы (кёртнс)
+Improve - улучшить
+Bottom - дно
+Backpack - рюкзак
+Run after - побежать за
+Suspicious - подозрительная
+Caught up with - догнать
+Instructive - поучительный
+Onto - на
+Pavement - тротуар
+Traffic jam - пробка
+Power cut - отключение энергии
+Rush hour - час пик
+Torches - факелы
+Lorry - грузовик
+Estimated (естимейдет) - планируемый
+Borough (бороуд) - район
+Skyscraper (скайскрепер) - небоскрёб
+Crossroads - перекрёсток
+Corner (корнер) - угол
+Varied (вериед) - разнообразный
+Escape - сбежать
+Subway - метро
+Consist - состоять
+According to - согласно
+Plenty of - много
+Sights - достопримечательности
+Anxious (энкшоус) - тревожный
+Worry - беспокоиться
+Annoy - раздражать
+Constantly - постоянно
+Behave - вести себя
+Realise (релиз) - понимать
+Fall out - ссориться
+Sensible - здравомыслящий
+Put effort - приложить усилия
+Restorative - восстанавливающий
+Relieve - освобождать
+Underneath - под
+Force to - вынуждена
+Treat - лечить
+Destructive - разрушающий
+Press - давить
+Sign up - записаться
+Mend - чинить
+Get together - собираться
+Come round - приходить
+Make up - помириться
+Split up - разделиться
+Beside - рядом
+Tips - подсказки
+Beanie (Бини) - шапка
+Going away - путешествие
+Departure - отправление
+Customs - таможня
+Checking desk - стойка регистрации
+Adopt - принять
+Foster - приёмный
+Apparently - по-видимому
+Mutual - общий
+Behaviour - поведение
+No clue - не иметь понятия
+Embarrassing - стыдный
+Agree or disagree - остаться при своём мнении
+Exception to the rule - исключение из правил
+Manage - управлять
+Let alone - не говоря о
+Rehearsals - репетиции
+Stunt double - каскадёр
+Strength (стренгс) - сила
+Maintain - сохранять
+Net - сеть
+Show up - появиться
+Hook - подцепить
+Get over - преодолевать
+Purpose - цель
+Response - ответ
+Entry - вступление
+Intend - намереваться
+Sightseeing - осмотр достопримечательностей
+Make up for - возместить
+Apart - отдельно
+Hedgehog (хечтхог) - ёж
+Arrangement - договорённость
+Predict - прогнозировать
+Likely - возможный
+Intention - намерения
+Along - вдоль
+Judge - судья
+Set off - отправляться
+Take off - взлёт
+Land - приземлиться
+Refuse - отказать
+Remind - напомнить
+Fond of - любить
+Riddle - загадка
+Priest - священник
+About to - вот-вот
+Sellsword - наёмник
+Sword - меч
+Favour with - расположение
+Pretend - притворяться
+Responsible - ответственен
+Executioner - палач
+Reside - находиться
+Cast a shadow - отбрасывать тень
+Trick - трюк
+Confess - покаяться
+Admit - признавать
+Innocent - невиновный
+Dwarf - карлик
+Trial - суд, испытание
+Defense - защита
+I wish that I had - лучше бы я так сделал
+Vicious (вишес) - порочный, злой
+Relief - облегчение
+Pack of - стая, пачка
+Swallow - глотать
+Escort - проводите
+Cell - клетка
+Justice - справедливость
+Demand - требовать
+Combat - бой
+Plead - умолять
+Sly - хитрый
+Obsequious (обсиквиос) - угодливый
+Scruples - угрызения совести
+Pit - камера
+Marching - маршировать
+Loyal - преданный
+Conquer (канкер) - завоёвывать
+Claim to the throne - претензия на престол
+Proven - доказанный
+Utterly - совершенно
+Without mercy - без милосердия
+Heir (еир) - наследник
+Fool - дурак
+Tame - приручить
+Butcher - разделывать
+Cripple - калечить
+Serve the realm - служить королевству
+Vile treason - гнусная измена
+Honor - честь
+Grave - могила
+Precious - ценный
+Soldiers - солдаты
+Pity - жалость
+Accomplishment - достижение
+Offend - обидеть
+Rest - остальные
+Armor - броня
+Appear to - казаться
+Feather beds (февер бедс) - перьевая кровать
+Chores - домашние дела`],
+['en4','en',`Take charge - взять ответственность
+Household - домашнее хозяйство
+Division - разделение
+Dedicate - посвящать
+Utilize (ютилайз) - использовать
+Gain admission - добиться приёма
+Regarding - касательно
+Ensure - убедиться
+Keep cool - сохранять спокойствие
+Disagreement - разногласие
+Cool down - остыть
+Movements - движения
+Strict - жёсткий | a strict schedule
+Figure out - придумать | I can’t figure it out
+Stuffy - душный | This conversation’s too stuffy for the dinner table
+Coincidence - совпадение
+Fond - любящий | We must be very fond of each other
+Consequences - последствия
+Interrupt - прервать | I didn’t mean to interrupt
+Waking hour - час бодрствования
+Trials - муки
+Bet - ставка
+Catch up on - наверстать упущенное | And then I catch up on some reading
+Get up - поднимайся | Get up here, let’s dance
+Succeed in (сэксид) - преуспевать
+Gloriously - великолепно | I’ve succeeded as gloriously as anyone who ever lived
+Clobber (клабд) - уделал | I clobbered that thing
+Cotton candy - сахарная вата | Do you want some cotton candy?
+Lumberyard - лесопилка
+Lumber - древесина | The smell of lumber
+Inch - дюйм
+Pal - приятель
+Fooling around - дурачиться | Stop fooling around
+Grab - хвататься | Grab the bar, you idiot
+Slip - скользить | My hand’s slipping
+Favour - одолжение | Don’t do me any favours
+Cocky - дерзкий | You’re not so cocky now, are you?
+Crawl - ползти | Crawl up a Ferris wheel
+Jeez - чёрт побери | Oh, jeez, what a line!
+Pensive - мечтательный | I could be whatever you want, pensive, smart
+Superstitious (суперстишос) - суеверный
+Fair and square - справедливо и честно
+Apply to college - подать заявление
+Run over - переехать
+Bouncing - скакать | I have all these thoughts bouncing around in my head
+Indifferent - безразличный | Southern summers are indifferent to the trials of young love
+Doubt - сомнение | Armed with warning and doubts
+Remarkably - необычайно | Allie and Noah gave a remarkably convincing portrayal of a boy and a girl
+Convincing - убедительно
+Portrayal - портрет
+Regard for - уважение к | With no regard for the consequences
+Inseparable - неразделимы
+Merely - просто | Being merely a picture
+Privacy - приватность
+Unseen - незаметный
+Stutter - заикание
+Stammer - запинание
+Besides - кроме того | We could use a little something here besides the smell of lumber
+Improbable - невероятный | It was an improbable romance
+Despite - несмотря на | But despite their differences
+Bunch of - куча
+Rumor has it - ходят слухи | Rumor has it that Francis Marion..
+Propose to his wife - сделал предложение жене
+Lips are buttoned - рот на замке | My lips are buttoned
+Nun - монахиня | I know another joke about the nun and the bishop
+Bishop - епископ
+Circumstance (серкамстенс) - обстоятельство | That child’s got too much spirit for a girl of her circumstance
+Watch out - обрати внимание
+Gigantic (джайгантик) - гигантский | a gigantic piece of crap
+Plumbing - водопровод | Plumbing and electric
+Barn - амбар
+Workshop - мастерская
+Turn into - превратить в | There’s a big old barn up there, I could turn that into my workshop
+Overlooking - смотрящий | And a room overlooking the river so I could paint
+Shutters - ставни | With blue shutters
+Porch - веранда | I want a big old porch that wraps around the entire house
+Wrap around - изгибаться вокруг
+Entire - весь
+Bat eyelashes at - хлопать ресницами | Think you can bat your eyelashes at your father?
+Enforce - принуждать | If your father won’t enforce them, I will
+Raise - воспитать | I didn’t spend 17 years of my life raising a daughter
+Throw away - выбросить | And giving her everything so she could throw it away
+Wind up - кончить как-то | She will wind up with her heart broken or pregnant
+Laborer (лейбор) - рабочий | He is a laborer
+Pop out - внезапно появиться | Pop out a few kids
+Suitable - подходящий | He is not suitable for you
+Humiliated (хьюмилейтед) - униженный | I don’t know what to say. I’m humiliated
+Ahead - впереди | You’ve got so much ahead of you
+Fancy - шикарный | Fancy things
+Exactly - именно так | That’s exactly what I’m talking about
+Devastated - опустошённый | She must have been devastated
+Stick it - засунуть | Just stick it where the sun don’t shine
+Throw over - перекинуть | Throw you over his shoulder
+Drag - тащить | Drag you the whole way
+I was up all night - я не спал
+Shooting star - падающая звезда | They are shooting stars
+Heaven - небо | A spectacular moment of light in the heavens
+Fleeting - скоротечный | A fleeting glimpse of eternity
+Glimpse (глимпс) - проблеск
+Eternity - вечность
+Flash - вспышка | And in a flash, they are gone
+Desperate - отчаянный | Noah was desperate
+Farewell - прощальный | He wrote a farewell letter
+Headed for - направляться в | Headed for Atlanta
+Exist - существовать | A state of war has existed
+Enemies - враги | Against all enemies, foreign and domestic
+Foreign and domestic - внешние и внутренние`],
+['en5','en',`Enlisted - зачисленный | Noah and Fin enlisted together
+Chasing - погоня | After two years of chasing Rommel through the North African desert
+Deploy to - направлен | They were deployed to Europe
+Contradict - противоречить | Do I contradict myself?
+Aid (эйд) - помощь | She volunteered as a nurse’s aid
+Shattered - разрушенный | The broken man with a shattered body
+Ward - палата | He spent months in the hospital ward
+Snow-swept - заснежённый | A frozen snow-swept road
+Intentions - намерения | And my intentions are completely dishonourable
+Dishonorable - бесчестный
+Staring at - смотреть | He’s staring at you
+Sophisticated (софистикейтед) - утончённый | He was handsome, funny, sophisticated
+Fabulously wealthy - сказочно богатый | He was fabulously wealthy
+Dawn on (me) - осенить | It’s just dawned on me. Your parents
+Decent (дисент) - порядочный | I got a decent job
+Defiance (дефайнс) - неповиновение | Then you will have lost a lifelong battle of defiance against them
+Disappoint - разочаровывать | I don’t want to disappoint my parents
+Minor (майнор) - незначительный | I think you may have overlooked one minor detail
+Overlook - упускать из виду
+Permission - разрешение | You have to get their permission first
+Overestimate (оверэстимейт) - преувеличивать | You may have overestimated their affection for you
+Affection - симпатия
+Bleeding - истекать кровью | Are you bleeding anywhere?
+Sold - продал | I sold the house
+Ought (оут) - должен | You ought to be able to get it now
+Loan (лон) - кредит | They’re going to give you the loan
+Fulfil (фулфил) - выполнять | He decided right there to fulfil his lifelong dream
+Ground up - с нуля | He would rebuild the old house from the ground up
+Approve - одобрить | Get the building plans approved
+Fate (фейт) - судьба | Fate stepped in and dealt him a sweet card
+Step in - вмешаться
+Dealt - сдал (карты)
+Depot - станция | I can’t stop the bus until I get to the depot
+Snap - щёлкнуть | Something inside Noah snapped
+Notion - понятие, идея | He got a notion into his head
+Labor - труд | Some called it a labor of love
+Accomplish - выполнить | He took a good look at what he had accomplished
+Bid (бид) - предложение | Either their bids were too low
+Lunatic (лунатик) - безумный | He wouldn’t have a lunatic living in his house
+Frustration - разочарование | He worked out his frustration by the creek every morning
+Creek (крик) - ручёй, речка
+Temper - умерить | To temper the sting of loneliness
+Sting (стинг) - боль
+Widow - вдова
+Plot - замышлять | She plots
+Reassuring - обнадёживающий | That’s reassuring
+Perhaps - возможно | Perhaps more than once?
+Examine - исследовать | I’d examine you
+Irreversible - необратимый | Senile dementia is irreversible
+Senile (синайл) - старческий
+Certain (сётн) - определённый | After a certain point, its victims don’t come back
+Advantage - преимущество | I don’t have to take advantage of you
+Recognize - распознавать
+Miracle - чудо
+Even though - даже несмотря на | Even though it was raining, we went for a walk | Even though he was tired, he kept working`],
+['en6','en',`According - согласно | According to the schedule, the train leaves at nine
+Possessions - имущество | Take only your personal possessions
+Compound - соединять, соединение | A compound word is made of two words
+Engine - двигатель | The engine won’t start`]];
+var G={m:null};
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function pool(f){return S.cards.filter(c=>inLang(c)&&(!f||f(c)))}
+function xp(n){S.xp=(S.xp||0)+n;save()}
+function iso(d){return d.toISOString().slice(0,10)}
+function streak(){var d=new Date(),n=0;if(!S.log[iso(d)])d.setDate(d.getDate()-1);while(S.log[iso(d)]){n++;d.setDate(d.getDate()-1)}return n}
+function gStop(){G={m:null};render()}
+function gStart(n){G={m:['pairs','quiz','letters','talk','gram','scen','read'][n]};if(pool().length<4){G={m:null};alert('Нужно хотя бы 4 слова на выбранном языке');return}
+ if(n==0)gPairs();if(n==1)gQuiz();if(n==2)gLet();if(n==3)gTalk();if(n==4)gGram();if(n==6)gRead();render()}
+function gameView(){
+ var x=S.xp||0,h=chips([['all','Все'],['en','English'],['sk','Slovenčina']],lang,'setLang')+'<div class="stats" style="margin-top:0"><div>'+(1+Math.floor(x/100))+'<small>уровень</small></div><div>'+x+'<small>очки</small></div><div>'+streak()+'<small>дней подряд</small></div></div>';
+ if(!G.m)h+=[['Пары','Соединяй слова с переводами на скорость'],['Выбор','10 вопросов, 3 жизни, серия даёт бонус'],['Буквы','Собери слово из перемешанных букв'],['Разговор','Диалог с Claude: он поправит грамматику, а твои слова закрепятся в речи'],['Грамматика','5 упражнений с твоими словами'],['Ситуации','Разыграй диалог: кафе, вокзал, обменник, отель'],['Чтение','Короткий текст с твоими словами и вопросы к нему']].map((g,i)=>'<button class="btn alt" style="text-align:left" onclick="gStart('+i+')"><b>'+g[0]+'</b><br><small>'+g[1]+'</small></button>').join('')+'<div class="note">Очки только тебе, без рейтингов. В «Разговоре» слова, которые ты правильно употребил, засчитываются как повторение. «Дни подряд» считаются по вкладке «Учить».</div>';
+ else h+=G.m=='pairs'?vPairs():G.m=='quiz'?vQuiz():G.m=='talk'?vTalk():G.m=='gram'?vGram():G.m=='scen'?vScen():G.m=='read'?vRead():vLet();
+ $('view').innerHTML=h}
+function gPairs(){G.it=shuf(pool()).slice(0,6);G.L=shuf(G.it);G.R=shuf(G.it);G.a=G.b=null;G.d={};G.e=0;G.t0=Date.now();G.fin=0}
+function gPick(s,i){if(G.fin)return;var c=(s?G.R:G.L)[i],k=s?'b':'a';G[k]=G[k]==c.id?null:c.id;
+ if(G.a&&G.b){if(G.a==G.b){G.d[G.a]=1;xp(10);if(Object.keys(G.d).length==G.it.length){G.fin=1;G.sec=Math.round((Date.now()-G.t0)/1000);if(!G.e&&G.sec<40)xp(20)}}else G.e++;G.a=G.b=null}
+ render()}
+function vPairs(){if(G.fin)return'<div class="card"><div class="front">Готово!</div><div class="note">Время: '+G.sec+' с, ошибок: '+G.e+(!G.e&&G.sec<40?'. Бонус +20':'')+'</div></div><button class="btn" onclick="gStart(0)">Ещё раунд</button><button class="btn alt" onclick="gStop()">В меню</button>';
+ var col=(arr,s,k)=>arr.map((c,i)=>'<button class="opt'+(G[s?'b':'a']==c.id?' sel':'')+'"'+(G.d[c.id]?' disabled style="visibility:hidden"':'')+' onclick="gPick('+s+','+i+')">'+esc(c[k])+'</button>').join('');
+ return'<div class="pg"><div>'+col(G.L,0,'f')+'</div><div>'+col(G.R,1,'b')+'</div></div><div class="note">Ошибок: '+G.e+'</div><button class="btn alt" onclick="gStop()">В меню</button>'}
+function gQuiz(){G.q=shuf(pool()).slice(0,10);G.i=0;G.lv=3;G.s=0;G.sc=0;G.ok=0;G.na=0;gQ()}
+function gQ(){var c=G.q[G.i],k=S.dir=='fr'?'b':'f';G.o=shuf([c].concat(shuf(pool(x=>x.id!=c.id&&x[k]!=c[k])).slice(0,3)));G.a=null}
+function gAns(i){if(G.a!=null)return;G.a=i;G.na++;var ok=G.o[i].id==G.q[G.i].id;if(ok){G.s++;G.ok++;var p=10+Math.min(G.s,5)*2;G.sc+=p;xp(p)}else{G.lv--;G.s=0}
+ render();setTimeout(()=>{if(G.m!='quiz')return;G.i++;if(G.lv<=0||G.i>=G.q.length)G.fin=1;else gQ();render()},ok?700:1400)}
+function vQuiz(){if(G.fin)return'<div class="card"><div class="front">+'+G.sc+'</div><div class="note">Верно: '+G.ok+' из '+G.na+'</div></div><button class="btn" onclick="gStart(1)">Ещё раз</button><button class="btn alt" onclick="gStop()">В меню</button>';
+ var c=G.q[G.i],fr=S.dir=='fr',k=fr?'b':'f';
+ return'<div class="note">'+'♥'.repeat(G.lv)+' · '+(G.i+1)+'/'+G.q.length+(G.s>1?' · серия '+G.s:'')+'</div><div class="card"><span class="tag '+c.l+'">'+LN[c.l]+'</span><div class="front">'+esc(fr?c.f:c.b)+'</div></div><div class="opts">'+G.o.map((o,i)=>'<button class="opt'+(G.a!=null?(o.id==c.id?' good':i==G.a?' bad':''):'')+'" onclick="gAns('+i+')">'+esc(o[k])+'</button>').join('')+'</div><button class="btn alt" onclick="gStop()">Выйти</button>'}
+function gLet(){var p=pool(c=>/^\S{3,12}$/.test(c.f));if(!p.length){G={m:null};alert('Нужны слова без пробелов');return}
+ G.c=shuf(p)[0];G.w=G.c.f.toLowerCase();G.l=shuf(G.w.split(''));G.t=[];G.msg='';G.hint=0;G.won=0}
+function gTap(i){if(G.won||G.t.includes(i))return;G.t.push(i);gChk();render()}
+function gChk(){if(G.t.length<G.w.length)return;if(G.t.map(i=>G.l[i]).join('')==G.w){G.won=1;G.n=(G.n||0)+1;xp(G.hint?5:15)}else{G.t=[];G.msg='Не то, попробуй ещё'}}
+function gBack(){G.t.pop();G.msg='';render()}
+function gHint(){if(G.won)return;var k=0;while(k<G.t.length&&G.l[G.t[k]]==G.w[k])k++;G.t=G.t.slice(0,k);var j=G.l.findIndex((ch,i)=>ch==G.w[k]&&!G.t.includes(i));if(j>=0)G.t.push(j);G.hint=1;gChk();render()}
+function vLet(){var c=G.c,s=G.t.map(i=>G.l[i]).join(''),sl=(s+'_'.repeat(G.w.length-s.length)).split('').join(' ');
+ return'<div class="card"><span class="tag '+c.l+'">'+LN[c.l]+'</span><div class="front" style="font-size:26px">'+esc(c.b)+'</div>'+pic(c)+'<div class="slots">'+esc(sl)+'</div>'+(G.won?'<div class="res ok">Верно!</div>'+(c.n?'<div class="nt">'+esc(c.n)+'</div>':''):'<div class="res bad">'+esc(G.msg)+'</div>')+'</div>'+(G.won?'<button class="btn" onclick="gLet();render()">Дальше</button>':'<div class="lts">'+G.l.map((ch,i)=>'<button class="opt lt" '+(G.t.includes(i)?'disabled style="opacity:.3" ':'')+'onclick="gTap('+i+')">'+esc(ch)+'</button>').join('')+'</div><div style="display:flex;gap:8px"><button class="btn alt" style="margin:0" onclick="gBack()">Стереть</button><button class="btn alt" style="margin:0" onclick="gHint()">Подсказка</button></div>')+'<div class="note">Угадано: '+(G.n||0)+'</div><button class="btn alt" onclick="gStop()">В меню</button>'}
+var LNN={en:'English',sk:'Slovak'},GT={en:['Past Simple vs Present Perfect','articles a/an/the','prepositions','first and second conditionals','modal verbs','comparatives and superlatives'],sk:['present tense verb conjugation','accusative case','locative case with v/na','past tense','negation','plural nouns']};
+function norm(s){return s.toLowerCase().replace(/[.,!?¿;:"«»]/g,'').split(/\s+/).filter(Boolean)}
+function speak(t,L){var u=new SpeechSynthesisUtterance(t);u.lang=L=='en'?'en-GB':'sk-SK';u.rate=.9;try{speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function ai(p){return(typeof claude=='undefined'?Promise.resolve(null):claude.use('sample')).then(s=>{if(!s)throw{code:'none'};return s(p,{cache:false})}).then(r=>r.text)}
+function jparse(t){return JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1))}
+function aerr(e){var c=e&&e.code;return c=='none'?'ИИ здесь недоступен. Открой страницу в приложении Claude':c=='not_granted'?'Ты не разрешил запросы к Claude':c=='rate_limited'?'Слишком много запросов, подожди минуту':'Не получилось связаться с Claude, попробуй ещё раз'}
+function targets(L,n){return shuf(S.cards.filter(c=>c.l==L)).sort((x,y)=>(y.due>0&&y.int<21)-(x.due>0&&x.int<21)).slice(0,n)}
+function listen(cb){var R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){G.err='Распознавание речи здесь недоступно. Диктуй клавиатурой телефона или пиши текстом';render();return}
+ var r=new R();r.lang=G.L=='sk'?'sk-SK':'en-GB';r.interimResults=false;G.rec=1;r.onresult=e=>cb(e.results[0][0].transcript);r.onerror=e=>{G.err='Микрофон недоступен ('+e.error+'). Диктуй клавиатурой телефона или пиши текстом'};r.onend=()=>{G.rec=0;render()};try{r.start()}catch(e){G.rec=0}render()}
+function mic(){listen(t=>{G.draft=t;G.voice=1})}
+function drill(i){listen(h=>{var hw=norm(h);G.dr={i:i,h:h,miss:norm(G.h[i].fix).filter(w=>hw.indexOf(w)<0)}})}
+function gTalk(){G.L=lang=='all'?'en':lang;G.tg=targets(G.L,5);G.h=[];G.used={};G.draft='';G.dr=null;G.err='';tSend('')}
+function tGo(){var t=(G.draft||'').trim();if(t&&!G.busy){G.draft='';tSend(t)}}
+function tSend(msg){var N=LNN[G.L];if(msg)G.h.push({r:'u',c:msg});G.busy=1;G.err='';render();
+ var p=['You are a friendly '+N+' conversation partner for a Russian-speaking learner (level A2-B1).','Target words the learner should practise, as word (Russian): '+G.tg.map(c=>c.f+' ('+c.b+')').join('; ')+'.','Reply in '+N+' with 1-3 short sentences, then ask ONE follow-up question that invites the learner to use a target word they have not used yet. Do not translate your reply.',(G.sc?'Role-play: the scene is '+G.sc+'. Stay in character and keep it realistic.':'Free conversation.'),'If there is no learner message yet, start and ask a first question.','Learner messages may come from speech recognition (from voice: '+(G.voice?'yes':'no')+'): ignore capitalisation and punctuation. If a word looks misheard, give a pronunciation hint.','Conversation so far:\n'+G.h.map(m=>(m.r=='u'?'Learner: ':'Partner: ')+m.c).join('\n'),'Respond with ONLY a JSON object with keys: reply (your '+N+' message), fix (the corrected version of the last learner message, or an empty string if it was correct), why (short explanation in Russian of the mistakes in grammar, word choice or pronunciation, or an empty string), used (array of target words, spelled exactly as in the list, that the learner used correctly in the last message).'].join('\n');
+ G.voice=0;
+ ai(p).then(t=>{if(G.m!='talk')return;var j=jparse(t),u=G.h[G.h.length-1];if(msg){u.fix=j.fix||'';u.why=j.why||''}
+  G.h.push({r:'a',c:j.reply});(j.used||[]).forEach(w=>{var c=G.tg.find(x=>x.f.toLowerCase()==String(w).toLowerCase());if(c&&!G.used[c.id]){G.used[c.id]=1;xp(10);if(c.due<=Date.now()){if(!c.due)S.nw[today()]=(S.nw[today()]||0)+1;Object.assign(c,nxt(c,2));save()}}});G.busy=0;render()}).catch(e=>{G.err=aerr(e);G.busy=0;render()})}
+function vTalk(){var h='<div class="note">Слова для разговора: '+G.tg.map(c=>(G.used[c.id]?'✓ ':'')+esc(c.f)+' — '+esc(c.b)).join(' · ')+'</div>';
+ G.h.forEach((m,i)=>{h+=m.r=='a'?'<div class="card" style="text-align:left;margin-top:8px">'+esc(m.c)+' <button class="say" onclick="speak(G.h['+i+'].c,G.L)">Послушать</button></div>':'<div class="nt" style="margin-top:8px"><b>Ты:</b> '+esc(m.c)+(m.why===undefined?'':m.fix?'<br><b>Лучше:</b> '+esc(m.fix)+' <button class="say" onclick="drill('+i+')">Повторить вслух</button>':'<br>✓ Всё верно')+(m.why?'<br>'+esc(m.why):'')+(G.dr&&G.dr.i==i?'<br><i>Распознано: '+esc(G.dr.h)+'. '+(G.dr.miss.length?'Не расслышал: '+esc(G.dr.miss.join(', '))+'. Попробуй медленнее и чётче.':'Всё распознано.')+'</i>':'')+'</div>'});
+ return h+(G.busy?'<div class="note">Claude пишет…</div>':'<input class="in" id="ti" value="'+esc(G.draft||'')+'" placeholder="Напиши или произнеси ответ" oninput="G.draft=this.value;G.voice=0" onkeydown="if(event.keyCode==13)tGo()"><div style="display:flex;gap:8px"><button class="btn alt" style="margin:12px 0 0" onclick="mic()">'+(G.rec?'Слушаю…':'Говорить')+'</button><button class="btn" style="margin:12px 0 0" onclick="tGo()">Отправить</button></div>')+(G.err?'<div class="res bad">'+esc(G.err)+'</div>':'')+'<div class="note">Распознавание речи — это подсказка, а не экзамен по произношению.</div><button class="btn alt" onclick="gStop()">Завершить</button>'}
+function gGram(){G.rd=0;G.L=lang=='all'?'en':lang;G.tg=targets(G.L,5);G.ex=null;G.i=0;G.sc=0;G.a=null;G.busy=1;G.err='';var N=LNN[G.L],tp=shuf(GT[G.L])[0];
+ var p=['Create a grammar exercise set for a Russian-speaking learner of '+N+' (level A2-B1). Grammar topic: '+tp+'.','Write 5 multiple-choice fill-in-the-blank sentences in '+N+', each using one of these target words in a correct form (each word at most once): '+G.tg.map(c=>c.f).join(', ')+'.','Each item has exactly 4 options and one correct answer. Mark the blank as ___ . Vary the position of the correct option. The tested point is the grammar topic, not the vocabulary.','Respond with ONLY a JSON object with keys: topic (topic name in Russian), rule (2-3 sentence rule in Russian), items (array of objects with keys q, opts, a as the index of the correct option, why as one short sentence in Russian).'].join('\n');
+ render();ai(p).then(t=>{var j=jparse(t);if(!j.items||!j.items.length)throw 0;G.ex=j;G.busy=0;render()}).catch(e=>{G.err=aerr(e);G.busy=0;render()})}
+function gG(i){if(G.a!=null)return;G.a=i;if(i==G.ex.items[G.i].a){G.sc++;xp(5)}render()}
+function gNext(){G.i++;G.a=null;render()}
+function vGram(){if(G.busy)return'<div class="note">Claude готовит упражнения…</div>';
+ if(G.err||!G.ex)return'<div class="res bad">'+esc(G.err)+'</div><button class="btn" onclick="gStart(G.rd?6:4)">Попробовать ещё раз</button><button class="btn alt" onclick="gStop()">В меню</button>';
+ var e=G.ex,it=e.items[G.i];
+ if(!it)return'<div class="card"><div class="front">'+G.sc+' из '+e.items.length+'</div><div class="note">Тема: '+esc(e.topic)+'</div></div><button class="btn" onclick="gStart(G.rd?6:4)">Новые упражнения</button><button class="btn alt" onclick="gStop()">В меню</button>';
+ return(G.i==0?'<div class="nt"><b>'+esc(e.topic)+'.</b> '+esc(e.rule)+'</div>':'')+'<div class="note">'+(G.i+1)+'/'+e.items.length+'</div><div class="card"><div class="front" style="font-size:24px">'+esc(it.q)+'</div></div><div class="opts">'+it.opts.map((o,i)=>'<button class="opt'+(G.a!=null?(i==it.a?' good':i==G.a?' bad':''):'')+'" onclick="gG('+i+')">'+esc(o)+'</button>').join('')+'</div>'+(G.a!=null?'<div class="nt">'+esc(it.why)+'</div><button class="btn" onclick="gNext()">Дальше</button>':'')+'<button class="btn alt" onclick="gStop()">Выйти</button>'}
+var SC=[['Кафе','ordering food and drinks in a cafe; you are the waiter'],['Вокзал','buying a train ticket at the station; you are the ticket clerk'],['Обменник','exchanging money at a currency exchange; you are the clerk'],['Отель','checking in at a hotel; you are the receptionist'],['Аптека','buying medicine at a pharmacy; you are the pharmacist'],['Как пройти','asking a passer-by for directions; you are the passer-by']];
+function reEsc(s){return s.replace(/[.*+?^$(){}|[\]\\]/g,'\\$&')}
+function vScen(){return'<div class="note">Выбери ситуацию. Claude сыграет роль, а ты ответь на выбранном языке (язык выбирается вверху).</div>'+SC.map((s,i)=>'<button class="btn alt" onclick="gSc('+i+')">'+s[0]+'</button>').join('')+'<button class="btn alt" onclick="gStop()">В меню</button>'}
+function gSc(i){G={m:'talk',sc:SC[i][1]};gTalk()}
+function gRead(){G.rd=1;G.qs=0;G.L=lang=='all'?'en':lang;G.tg=targets(G.L,6);G.ex=null;G.i=0;G.sc=0;G.a=null;G.busy=1;G.err='';var N=LNN[G.L];
+ var p=['Write a short story (5-7 simple sentences, level A2-B1) in '+N+' for a Russian-speaking learner. Use each of these target words at least once, in a natural form: '+G.tg.map(c=>c.f).join(', ')+'.','Then write 3 multiple-choice comprehension questions about the story in '+N+', each with exactly 4 options and one correct answer (vary its position).','Respond with ONLY a JSON object with keys: title, text (the story), forms (array of the exact word forms from the text that correspond to the target words), items (array of objects with keys q, opts, a as the index of the correct option, why as one short sentence in Russian).'].join('\n');
+ render();ai(p).then(t=>{var j=jparse(t);if(!j.text||!j.items||!j.items.length)throw 0;j.topic=j.title||'Текст';j.rule='Вопросы к тексту.';G.ex=j;G.busy=0;render()}).catch(e=>{G.err=aerr(e);G.busy=0;render()})}
+function vRead(){if(G.busy||G.err||!G.ex||G.qs)return vGram();
+ var e=G.ex,fs=(e.forms||[]).filter(Boolean),h=esc(e.text);
+ if(fs.length)h=h.replace(new RegExp(fs.map(reEsc).join('|'),'gi'),m=>'<b>'+m+'</b>');
+ return'<div class="card" style="text-align:left"><div class="tag '+G.L+'">'+esc(e.title||'')+'</div><p style="margin:12px 0;white-space:pre-line">'+h+'</p><button class="say" onclick="speak(G.ex.text,G.L)">Послушать</button></div><div class="nt">'+G.tg.map(c=>esc(c.f)+' — '+esc(c.b)).join('<br>')+'</div><button class="btn" onclick="G.qs=1;render()">К вопросам</button><button class="btn alt" onclick="gStop()">В меню</button>'}
+function newCount(){return S.cards.filter(c=>c.due===0).length}
+function hasEx(c){return(c.n||'').split('\n').filter(l=>l&&l.indexOf('Произношение')!=0).length>=3}
+var EX={run:0,done:0,tot:0,err:''};
+function genEx(cs){var by={};cs.forEach(c=>by[c.id]=c);
+ var p=['For each word below, write 3 short natural example sentences in its language (level A2-B1) showing different typical uses or common expressions. After each sentence add a Russian translation in parentheses.','Words (id | language | word | Russian): '+cs.map(c=>c.id+' | '+LNN[c.l]+' | '+c.f+' | '+c.b).join('; '),'Respond with ONLY a JSON object with keys: items (array of objects with keys id and ex, where ex is an array of 3 strings).'].join('\n');
+ return ai(p).then(t=>{jparse(t).items.forEach(it=>{var c=by[it.id];if(c&&it.ex&&it.ex.length)c.n=(c.n?c.n+'\n':'')+it.ex.map(x=>'• '+x).join('\n')});save()})}
+function oneEx(){genEx([cur]).then(render).catch(e=>alert(aerr(e)))}
+function exStop(){EX.stop=1}
+function exAll(){if(EX.run)return;var q=pool(c=>!hasEx(c));EX={run:1,done:0,tot:q.length,err:'',stop:0};
+ if(!q.length){EX.run=0;EX.err='У всех слов уже есть примеры';render();return}
+ var step=()=>{if(EX.stop||!q.length){EX.run=0;render();return}var b=q.splice(0,15);genEx(b).then(()=>{EX.done+=b.length;render();step()}).catch(e=>{EX.run=0;EX.err=aerr(e)+'. Нажми ещё раз, продолжу с оставшихся';render()})};step();render()}
+function loadPacks(){S.packs=S.packs||{};PACKS.forEach(function(p){if(S.packs[p[0]])return;S.packs[p[0]]=1;
+ parse(p[2]).out.forEach(function(x){var c=S.cards.filter(function(k){return k.l==p[1]&&k.f.toLowerCase()==x[0].toLowerCase()})[0];
+  if(!c){S.cards.push(mk(p[1],x[0],x[1],x[2].join('\n')));return}
+  if(c.b.toLowerCase().indexOf(x[1].toLowerCase())<0)c.b+='; '+x[1];
+  x[2].forEach(function(z){if(c.n.indexOf(z)<0)c.n+=(c.n?'\n':'')+z})})});save()}
+load();loadPacks();render();ping();setInterval(function(){ping();if(!cur&&tab=='study')render()},6e4);
+</script>
+<script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')==0){navigator.serviceWorker.register('sw.js').catch(function(){})}</script>
+</body>
+</html>
